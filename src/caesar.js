@@ -4,15 +4,49 @@
 // of the anonymous function on line 6
 
 const caesarModule = (function () {
-  // you can add any code you want within this function scope
-
-  function caesar(input, shift, encode = true) {
-    // your solution code here
+    //caesar("mno jkl", 12);
+  
+    function caesar(input, shift, encode = true) {
+      if (shift < -25 || shift > 25 || shift === 0 || isNaN(shift)||input.length < 1) {
+        return false;
+      }
+      if (!encode) {
+        shift *= -1
+      }
+      //push them to lower case
+      input = input.toLowerCase();
+      //declare what we will return
+      let returnString = "";
+      let code = "";
+      //loop through input letters
+      for (let i = 0; i < input.length; i++) {
+        let encoded = input[i];
+        //validate if its a letter, if not just push it to the return variable
+        if (encoded.match(/[a-z]/)) {
+          //encode the letter
+          code = input.charCodeAt(i);
+  
+          //move the encoded value by the shift value unless the encoded value is negative, then it is just shift plus 26 to encode
+          let codedValue = code + shift;
+          if (codedValue < 97) {
+            codedValue += 26;
+          }
+          //decode the shifted number into a letter
+          encoded = String.fromCharCode(((codedValue - 97) % 26) + 97);
+          //append the return string
+          returnString += encoded;
+        } else {
+          returnString += input[i];
+          //console.log(`this is after line 38 ${input[i]}`)
+          //console.log()
+        }
+    }
+    console.log(returnString);
+      return returnString;
   }
-
-  return {
-    caesar,
-  };
-})();
-
-module.exports = { caesar: caesarModule.caesar };
+  
+    return {
+      caesar,
+    };
+  })();
+  module.exports = { caesar: caesarModule.caesar };
